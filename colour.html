@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Color Reaction Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            background-color: #fce4ec;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff4081;
+        }
+        #color-box {
+            width: 80%;
+            max-width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border: 5px solid black;
+            border-radius: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .color-btn {
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 40%;
+            max-width: 120px;
+            min-width: 80px;
+        }
+        .color-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            opacity: 0.9;
+        }
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d500f9;
+            margin-top: 20px;
+        }
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fun Color Reaction Game</h1>
+    <p>Click the button that matches the color of the box as fast as you can!</p>
+    <div id="color-box"></div>
+    <div class="btn-container" id="buttons-container"></div>
+    <p id="score">Score: 0</p>
+    <p id="result"></p>
+    
+    <script>
+        const colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "cyan"];
+        let score = 0;
+        let correctColor = "";
+
+        function generateGame() {
+            correctColor = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById("color-box").style.backgroundColor = correctColor;
+            
+            const buttonsContainer = document.getElementById("buttons-container");
+            buttonsContainer.innerHTML = "";
+            
+            const shuffledColors = [...colors].sort(() => Math.random() - 0.5);
+            shuffledColors.forEach(color => {
+                const btn = document.createElement("button");
+                btn.classList.add("color-btn");
+                btn.style.backgroundColor = color;
+                btn.style.color = "white";
+                btn.textContent = color.toUpperCase();
+                btn.onclick = () => checkAnswer(color);
+                buttonsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedColor) {
+            const resultText = document.getElementById("result");
+            if (selectedColor === correctColor) {
+                score++;
+                resultText.textContent = "🎉 Correct! Great job!";
+                resultText.style.color = "green";
+            } else {
+                resultText.textContent = "❌ Oops! Try again.";
+                resultText.style.color = "red";
+            }
+            document.getElementById("score").textContent = "Score: " + score;
+            setTimeout(generateGame, 1000);
+        }
+
+        generateGame();
+    </script>
+</body>
+</html>

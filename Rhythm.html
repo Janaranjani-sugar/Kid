@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythm Tap Game 🎵</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #FFEBEE;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .game-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .button {
+            width: 100px;
+            height: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .glow {
+            background-color: yellow !important;
+            transform: scale(1.1);
+        }
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .start-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #D81B60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .start-btn:hover {
+            background-color: #C2185B;
+        }
+        @media (max-width: 600px) {
+            .button {
+                width: 80px;
+                height: 80px;
+                font-size: 18px;
+            }
+            .start-btn {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Rhythm Tap Game 🎤</h1>
+    <p>Tap the glowing button to match the beat!</p>
+    <div class="game-container">
+        <button class="button" id="btn1" style="background-color: red;">🎵</button>
+        <button class="button" id="btn2" style="background-color: blue;">🎶</button>
+    </div>
+    <p>Score: <span id="score">0</span></p>
+    <button class="start-btn" onclick="startGame()">Start Game</button>
+    <audio id="music" src="music.mp3"></audio>
+    
+    <script>
+        let score = 0;
+        let buttons = [document.getElementById("btn1"), document.getElementById("btn2")];
+        let gameSequence = [];
+        let currentIndex = 0;
+        let isPlaying = false;
+        let songDuration = 120000;
+        let totalBeats = 60;
+        let beatInterval = songDuration / totalBeats;
+
+        function startGame() {
+            score = 0;
+            document.getElementById("score").textContent = score;
+            gameSequence = generateFullSongPattern();
+            currentIndex = 0;
+            isPlaying = true;
+            document.getElementById("music").play();
+            playSequence();
+        }
+
+        function generateFullSongPattern() {
+            let pattern = [];
+            for (let i = 0; i < totalBeats; i++) {
+                pattern.push(Math.floor(Math.random() * 2));
+            }
+            return pattern;
+        }
+
+        function playSequence() {
+            if (currentIndex >= gameSequence.length) {
+                isPlaying = false;
+                return;
+            }
+            let buttonIndex = gameSequence[currentIndex];
+            let button = buttons[buttonIndex];
+            button.classList.add("glow");
+            setTimeout(() => {
+                button.classList.remove("glow");
+            }, beatInterval - 200);
+            currentIndex++;
+            setTimeout(playSequence, beatInterval);
+        }
+
+        buttons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                if (isPlaying && index === gameSequence[currentIndex - 1]) {
+                    score += 10;
+                    document.getElementById("score").textContent = score;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

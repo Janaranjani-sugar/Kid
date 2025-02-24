@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Little Red Hen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffc1e3; /* Soft pink background */
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            max-width: 90%;
+            width: 500px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 24px;
+        }
+
+        .story {
+            font-size: 18px;
+            margin: 20px 0;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .choices {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            padding: 14px;
+            font-size: 16px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(233, 30, 99, 0.6);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (min-width: 600px) {
+            .choices {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            button {
+                width: 45%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>The Little Red Hen 🐔</h1>
+    <div class="container">
+        <p class="story" id="story-text">
+            One day, the Little Red Hen found some grains of wheat. She wanted to plant them.
+            <br><br> 
+            "Who will help me plant the wheat?" she asked.
+        </p>
+
+        <div class="choices">
+            <button onclick="nextStep('noHelp')">The animals say NO! 😢</button>
+            <button onclick="nextStep('yesHelp')">The animals help her! 🎉</button>
+        </div>
+
+        <button id="next-button" class="hidden" onclick="nextStep('next')">Next ➡️</button>
+    </div>
+
+    <script>
+        let storyStep = 1;
+
+        function nextStep(choice) {
+            let storyText = document.getElementById("story-text");
+            let choices = document.querySelector(".choices");
+            let nextButton = document.getElementById("next-button");
+
+            if (choice === "noHelp") {
+                storyText.innerHTML = "The animals were lazy and said, 'Not I!' 😴<br><br>The Little Red Hen sighed and planted the wheat by herself.";
+                choices.style.display = "none";
+                nextButton.classList.remove("hidden");
+            } else if (choice === "yesHelp") {
+                storyText.innerHTML = "The animals were kind and said, 'We will help!' 😊<br><br> Together, they planted the wheat.";
+                choices.style.display = "none";
+                nextButton.classList.remove("hidden");
+            } else if (choice === "next") {
+                if (storyStep === 1) {
+                    storyText.innerHTML = "After some time, the wheat grew tall and golden. 🌾<br><br>'Who will help me cut the wheat?' asked the Little Red Hen.";
+                    choices.style.display = "flex";
+                    choices.innerHTML = `
+                        <button onclick="nextStep('noHelpAgain')">The animals refuse again! 😢</button>
+                        <button onclick="nextStep('yesHelpAgain')">The animals help! 🎉</button>
+                    `;
+                } else if (storyStep === 2) {
+                    storyText.innerHTML = "The wheat was made into flour, and the Little Red Hen baked a delicious loaf of bread! 🍞<br><br> 'Who will help me eat the bread?' she asked.";
+                    choices.style.display = "flex";
+                    choices.innerHTML = `
+                        <button onclick="nextStep('eatBread')">The animals want to eat! 😋</button>
+                        <button onclick="nextStep('noBread')">The Hen eats alone! 🐔</button>
+                    `;
+                } else {
+                    storyText.innerHTML = "The Little Red Hen learned that hard work pays off! 🎉 The End!";
+                    nextButton.style.display = "none";
+                    choices.style.display = "none";
+                }
+
+                storyStep++;
+                nextButton.classList.add("hidden");
+            } else if (choice === "noHelpAgain") {
+                storyText.innerHTML = "The animals refused again. The Little Red Hen cut the wheat herself. 😓";
+                choices.style.display = "none";
+                nextButton.classList.remove("hidden");
+            } else if (choice === "yesHelpAgain") {
+                storyText.innerHTML = "The animals finally helped! Together, they harvested the wheat. 😊";
+                choices.style.display = "none";
+                nextButton.classList.remove("hidden");
+            } else if (choice === "eatBread") {
+                storyText.innerHTML = "The animals wanted to eat, but the Little Red Hen reminded them they didn’t help! 😠";
+                choices.style.display = "none";
+                nextButton.classList.remove("hidden");
+            } else if (choice === "noBread") {
+                storyText.innerHTML = "The Little Red Hen enjoyed her bread alone. 🍞🐔 She learned a lesson about hard work!";
+                choices.style.display = "none";
+                nextButton.classList.remove("hidden");
+            }
+        }
+    </script>
+
+</body>
+</html>

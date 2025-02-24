@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Puzzle Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fce4ec;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            max-width: 90%;
+            width: 400px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #ff4081;
+            word-wrap: break-word;
+        }
+
+        input {
+            padding: 15px;
+            font-size: 18px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            border: 2px solid #ff4081;
+            border-radius: 8px;
+            margin-top: 15px;
+            outline: none;
+            display: block;
+            margin: auto;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 320px;
+            margin: 15px auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: block;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .score {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .question {
+                font-size: 20px;
+            }
+
+            input, button {
+                font-size: 16px;
+                padding: 12px;
+                width: 100%;
+            }
+
+            .message, .score {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            .question {
+                font-size: 18px;
+            }
+
+            input, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .message, .score {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Math Puzzle Game</h1>
+    <div class="container">
+        <p class="question" id="question">Loading...</p>
+        <input type="number" id="answer" placeholder="Enter your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <p class="message" id="message"></p>
+        <p class="score" id="score">Score: 0</p>
+    </div>
+
+    <script>
+        let num1, num2, correctAnswer, score = 0;
+
+        function generateQuestion() {
+            num1 = Math.floor(Math.random() * 10) + 1;
+            num2 = Math.floor(Math.random() * 10) + 1;
+            let operator = ["+", "-", "×"][Math.floor(Math.random() * 3)];
+            
+            if (operator === "+") {
+                correctAnswer = num1 + num2;
+            } else if (operator === "-") {
+                correctAnswer = num1 - num2;
+            } else {
+                correctAnswer = num1 * num2;
+            }
+
+            document.getElementById("question").textContent = `What is ${num1} ${operator} ${num2}?`;
+            document.getElementById("answer").value = "";
+            document.getElementById("message").textContent = "";
+        }
+
+        function checkAnswer() {
+            let userAnswer = parseInt(document.getElementById("answer").value);
+            let message = document.getElementById("message");
+
+            if (userAnswer === correctAnswer) {
+                message.textContent = "✅ Correct! Well done!";
+                message.style.color = "#388e3c";
+                score++;
+            } else {
+                message.textContent = "❌ Incorrect! Try again!";
+                message.style.color = "#d32f2f";
+                score = Math.max(0, score - 1);
+            }
+
+            document.getElementById("score").textContent = `Score: ${score}`;
+            setTimeout(generateQuestion, 1500);
+        }
+
+        generateQuestion();
+    </script>
+
+</body>
+</html>

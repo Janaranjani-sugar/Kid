@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Three Little Pigs - Interactive Story</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe4e1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            max-width: 90%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e91e63;
+        }
+
+        .story {
+            font-size: 18px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .choices {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>The Three Little Pigs 🐷</h1>
+    <div class="container">
+        <p class="story" id="story-text">
+            Once upon a time, three little pigs left home to build their own houses. 
+            <br><br> The first pig wanted to build with "straw", the second with "sticks", and the third with "bricks". 
+            <br><br> Which material should the first pig use?
+        </p>
+
+        <div class="choices" id="choices">
+            <button onclick="nextStep('straw')">Use Straw 🌾</button>
+            <button onclick="nextStep('sticks')">Use Sticks 🪵</button>
+            <button onclick="nextStep('bricks')">Use Bricks 🧱</button>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(choice) {
+            let storyText = document.getElementById("story-text");
+            let choices = document.getElementById("choices");
+            
+            if (choice === "straw") {
+                storyText.innerHTML = "The first pig built a house of straw. But oh no! 😱 The wolf blew it down easily! What should he do next?";
+                choices.innerHTML = `
+                    <button onclick="nextStep('run')">Run to his brother! 🏃‍♂️</button>
+                    <button onclick="nextStep('hide')">Try to hide! 🫣</button>
+                `;
+            } else if (choice === "sticks") {
+                storyText.innerHTML = "The second pig built a house of sticks. But the wolf blew it down too! 🐺💨 What should he do next?";
+                choices.innerHTML = `
+                    <button onclick="nextStep('run')">Run to his brother! 🏃‍♂️</button>
+                    <button onclick="nextStep('fight')">Try to scare the wolf! 🐷💪</button>
+                `;
+            } else if (choice === "bricks") {
+                storyText.innerHTML = "The third pig built a house of bricks. The wolf huffed and puffed... but couldn't blow it down! 🎉🏠 What should he do next?";
+                choices.innerHTML = `
+                    <button onclick="nextStep('invite')">Invite the wolf in for soup! 🍲</button>
+                    <button onclick="nextStep('call')">Call for help! 📞</button>
+                `;
+            } else if (choice === "run") {
+                storyText.innerHTML = "The pig ran to his brother’s house! They are safer together! But the wolf is still outside... What should they do?";
+                choices.innerHTML = `
+                    <button onclick="nextStep('lock')">Lock the doors! 🔒</button>
+                    <button onclick="nextStep('escape')">Climb out the window! 🪟</button>
+                `;
+            } else if (choice === "hide") {
+                storyText.innerHTML = "The pig tried to hide, but the wolf found him! 😱 He had to run! Where should he go?";
+                choices.innerHTML = `
+                    <button onclick="nextStep('run')">Run to his brother’s house! 🏠</button>
+                    <button onclick="nextStep('climb')">Climb a tree! 🌳</button>
+                `;
+            } else if (choice === "fight") {
+                storyText.innerHTML = "The pig stood his ground and squealed loudly! The wolf got startled for a moment but then growled... What now?";
+                choices.innerHTML = `
+                    <button onclick="nextStep('run')">Run away! 🏃‍♂️</button>
+                    <button onclick="nextStep('trick')">Trick the wolf with a disguise! 🦊</button>
+                `;
+            } else if (choice === "invite") {
+                storyText.innerHTML = "The pig invited the wolf in for soup. Surprisingly, the wolf became friendly! 🐺❤️ The pigs and the wolf became friends! 🎉 The End!";
+                choices.innerHTML = "";
+            } else if (choice === "call") {
+                storyText.innerHTML = "The pig called for help! Soon, a farmer arrived and scared the wolf away! 🚜💨 The pigs lived happily ever after! 🎉 The End!";
+                choices.innerHTML = "";
+            } else if (choice === "lock") {
+                storyText.innerHTML = "The pigs locked the doors! The wolf tried and tried, but couldn’t get in. Finally, he left! 🎉 The pigs were safe! The End!";
+                choices.innerHTML = "";
+            } else if (choice === "escape") {
+                storyText.innerHTML = "The pigs climbed out the window and ran to another town, where they built stronger houses! 🏠🏡🏘️ The End!";
+                choices.innerHTML = "";
+            }
+        }
+    </script>
+
+</body>
+</html>
